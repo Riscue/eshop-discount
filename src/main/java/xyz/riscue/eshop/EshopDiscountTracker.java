@@ -37,7 +37,7 @@ public class EshopDiscountTracker {
         logger.info("Caching eshop-prices urls");
         CacheUtil.cacheSearchResults(gameList);
 
-        if (Boolean.parseBoolean(System.getenv("DEBUG"))) {
+        if (config.isDebug()) {
             logger.warn("Debug mode active, limiting queue to 1");
             gameList = gameList.stream().limit(1).collect(Collectors.toList());
         }
