@@ -29,8 +29,11 @@ public class EshopDiscountTracker {
         logger.info("Fetching wishlist");
         List<Game> gameList = dekuDealsParser.fetchWishlists(config.getWishlist());
 
-        logger.info("Merge wishlist from DekuDeals and Custom");
+        logger.info("Merge DekuDeals Wishlist and Custom Wishlist");
         ConfigUtil.merge(gameList, config);
+
+        logger.info("Load alerts from Config");
+        ConfigUtil.loadAlertsFromConfig(gameList, config);
 
         logger.info("Enriching urls from cache");
         CacheUtil.enrichFromCache(gameList);
@@ -41,7 +44,7 @@ public class EshopDiscountTracker {
         logger.info("Searching eshop-prices urls");
         gameList.forEach(game -> game.setEshopPricesUrl(eshopPricesParser.findGameUrl(game)));
 
-        if (config.isDebug()) {
+        if (config.getDebug()) {
             logger.warn("Debug mode active, limiting queue to 1");
             gameList.stream().filter(game -> game.getName().equals("The Witcher 3: Wild Hunt")).collect(Collectors.toList()).forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
         } else {

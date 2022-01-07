@@ -23,19 +23,27 @@ public class ConfigUtil {
         }
     }
 
-    public static void setAlertConfig(List<Game> gameList, Config config) {
+    public static void loadAlertsFromConfig(List<Game> gameList, Config config) {
         for (Game game : gameList) {
-            game.setDiscountPrice(config.getDiscountPrice());
-            game.setDiscountPercentage(config.getDiscountPercentage());
-            game.setAllTimeLow(config.isAllTimeLow());
-            game.setSignificantDiscount(config.isSignificantDiscount());
-
             WishlistItem wishlistItem = config.getGame().stream().filter(w -> w.getName().equals(game.getName())).findFirst().orElse(null);
             if (wishlistItem != null) {
                 game.setDiscountPrice(wishlistItem.getDiscountPrice());
                 game.setDiscountPercentage(wishlistItem.getDiscountPercentage());
-                game.setAllTimeLow(wishlistItem.isAllTimeLow());
-                game.setSignificantDiscount(wishlistItem.isSignificantDiscount());
+                game.setAllTimeLow(wishlistItem.getAllTimeLow());
+                game.setSignificantDiscount(wishlistItem.getSignificantDiscount());
+            }
+
+            if (game.getDiscountPrice() == null) {
+                game.setDiscountPrice(config.getDiscountPrice());
+            }
+            if (game.getDiscountPercentage() == null) {
+                game.setDiscountPercentage(config.getDiscountPercentage());
+            }
+            if (game.getAllTimeLow() == null) {
+                game.setAllTimeLow(config.getAllTimeLow());
+            }
+            if (game.getSignificantDiscount() == null) {
+                game.setSignificantDiscount(config.getSignificantDiscount());
             }
         }
     }
