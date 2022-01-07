@@ -1,5 +1,7 @@
 package xyz.riscue.eshop.model;
 
+import org.apache.log4j.Logger;
+
 @SuppressWarnings("unused")
 public enum Region {
     ARGENTINA,
@@ -10,7 +12,6 @@ public enum Region {
     BULGARIA,
     CANADA,
     CHILE,
-    CHINA,
     COLOMBIA,
     CROATIA,
     CYPRUS,
@@ -48,6 +49,14 @@ public enum Region {
     SWEDEN,
     SWITZERLAND,
     UNITED_KINGDOM,
-    UNITED_STATES,
-    DIGITAL_CODE_AVAILABLE_AT_ENEBA
+    UNITED_STATES;
+
+    public static Region find(String name) {
+        try {
+            return valueOf(name);
+        } catch (Exception e) {
+            Logger.getLogger(Region.class).debug(e.getMessage());
+            return null;
+        }
+    }
 }

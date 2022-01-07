@@ -34,16 +34,16 @@ public class EshopDiscountTracker {
         logger.info("Searching eshop-prices urls");
         gameList.forEach(game -> game.setEshopPricesUrl(eshopPricesParser.findGameUrl(game)));
 
-        logger.info("Caching eshop-prices urls");
-        CacheUtil.cacheSearchResults(gameList);
-
         if (config.isDebug()) {
             logger.warn("Debug mode active, limiting queue to 1");
-            gameList = gameList.stream().limit(1).collect(Collectors.toList());
+            gameList.stream().limit(1).collect(Collectors.toList()).forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
+        } else {
+            logger.info("Fetching prices");
+            gameList.forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
         }
 
-        logger.info("Fetching prices");
-        gameList.forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
+        logger.info("Caching eshop-prices urls");
+        CacheUtil.cacheSearchResults(gameList);
 
         logger.info("Exporting to excel");
         ExcelUtil.export(gameList);

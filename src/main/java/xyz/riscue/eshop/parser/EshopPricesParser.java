@@ -51,13 +51,16 @@ public class EshopPricesParser {
 
         Elements items = document.select("table.prices-table > tbody > tr.pointer");
         for (Element item : items) {
-            String region = item.select("td:nth-child(2)").text().replace(" ", "_").toUpperCase();
+            String regionName = item.select("td:nth-child(2)").text().replace(" ", "_").toUpperCase();
             String price = item.select("td:nth-child(4)").text();
 
-            priceList.add(RegionPrice.builder()
-                    .region(Region.valueOf(region))
-                    .price(price)
-                    .build());
+            Region region = Region.find(regionName);
+            if (region != null) {
+                priceList.add(RegionPrice.builder()
+                        .region(region)
+                        .price(price)
+                        .build());
+            }
         }
         return priceList;
     }

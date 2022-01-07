@@ -50,18 +50,18 @@ public class ExcelUtil {
     }
 
     private static void writeDataLine(Game game, XSSFSheet sheet) {
-        String name = game.getName();
-        List<RegionPrice> prices = game.getPrices();
-
         Row row = sheet.createRow(sheet.getLastRowNum() + 1);
 
         Cell nameCell = row.createCell(row.getLastCellNum() + 1);
-        nameCell.setCellValue(name);
+        nameCell.setCellValue(game.getName());
 
-        for (Region region : Region.values()) {
-            RegionPrice regionPrice = prices.stream().filter(rp -> rp.getRegion().equals(region)).findFirst().orElse(null);
-            Cell cell = row.createCell(row.getLastCellNum());
-            cell.setCellValue(regionPrice == null ? "" : regionPrice.getPrice());
+        List<RegionPrice> prices = game.getPrices();
+        if (prices != null) {
+            for (Region region : Region.values()) {
+                RegionPrice regionPrice = prices.stream().filter(rp -> rp.getRegion().equals(region)).findFirst().orElse(null);
+                Cell cell = row.createCell(row.getLastCellNum());
+                cell.setCellValue(regionPrice == null ? "" : regionPrice.getPrice());
+            }
         }
     }
 }
