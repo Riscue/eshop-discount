@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegionPrice {
-    private Region region;
-    private Double price;
-    private Double discountedPrice;
+public class Alert {
+    private String name;
+    private RegionPrice price;
+
+    private String dekuDealsUrl;
+    private String eshopPricesUrl;
 }

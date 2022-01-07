@@ -73,8 +73,8 @@ public class EshopPricesParser {
             if (region != null) {
                 priceList.add(RegionPrice.builder()
                         .region(region)
-                        .price(price)
-                        .discountedPrice(discountedPrice)
+                        .price(Double.parseDouble(price))
+                        .discountedPrice(Double.parseDouble(discountedPrice))
                         .build());
             }
         }

@@ -13,6 +13,7 @@ import java.util.List;
 public class Game extends TrackableConfig {
     private String name;
     private List<RegionPrice> prices;
+    private RegionPrice allTimeLowPrice;
 
     private String dekuDealsUrl;
     private String eshopPricesUrl;

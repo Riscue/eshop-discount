@@ -1,15 +1,18 @@
 package xyz.riscue.eshop;
 
 import org.apache.log4j.Logger;
+import xyz.riscue.eshop.model.Alert;
 import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.config.Config;
 import xyz.riscue.eshop.parser.DekuDealsParser;
 import xyz.riscue.eshop.parser.EshopPricesParser;
+import xyz.riscue.eshop.utils.AlertUtil;
 import xyz.riscue.eshop.utils.CacheUtil;
 import xyz.riscue.eshop.utils.ConfigUtil;
 import xyz.riscue.eshop.utils.ExcelUtil;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class EshopDiscountTracker {
@@ -53,6 +56,10 @@ public class EshopDiscountTracker {
             logger.info("Fetching prices");
             gameList.forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
         }
+
+        logger.info("Checking if any alert rule occured");
+        List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
+        alerts.forEach(alert -> logger.info(String.format("Alert -> %s: %s", alert.getName(), alert.getPrice().getDiscountedPrice())));
 
         logger.info("Caching urls to file");
         CacheUtil.cacheSearchResults(gameList);
