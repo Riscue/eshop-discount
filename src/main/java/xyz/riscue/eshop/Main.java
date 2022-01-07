@@ -3,10 +3,15 @@ package xyz.riscue.eshop;
 import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import xyz.riscue.eshop.model.Game;
+import xyz.riscue.eshop.model.cache.CacheContainer;
 import xyz.riscue.eshop.model.config.Config;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -15,7 +20,8 @@ public class Main {
     @SneakyThrows
     public static void main(String[] args) {
         Config config = parseConfig();
-        EshopDiscountTracker eshopDiscountTracker = new EshopDiscountTracker(config);
+        List<Game> cache = parseCache();
+        EshopDiscountTracker eshopDiscountTracker = new EshopDiscountTracker(config, cache);
         eshopDiscountTracker.track();
     }
 
@@ -42,5 +48,26 @@ public class Main {
         }
 
         return config;
+    }
+
+    @SneakyThrows
+    private static List<Game> parseCache() {
+        String cacheFile = System.getenv("CACHE_FILE");
+        if (cacheFile == null || cacheFile.isEmpty()) {
+            logger.warn("'CACHE_FILE' env is not set");
+            cacheFile = "cache.yaml";
+        }
+
+        File file = new File(cacheFile);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+
+        CacheContainer gameListCacheContainer = new Yaml(new Constructor(CacheContainer.class)).load(new FileReader(file));
+        if (gameListCacheContainer == null) {
+            return new ArrayList<>();
+        }
+
+        return gameListCacheContainer.getCache();
     }
 }

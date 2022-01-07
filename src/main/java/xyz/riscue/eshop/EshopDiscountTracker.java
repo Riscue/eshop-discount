@@ -17,9 +17,11 @@ public class EshopDiscountTracker {
     private static final Logger logger = Logger.getLogger(EshopDiscountTracker.class);
 
     private final Config config;
+    private final List<Game> cache;
 
-    public EshopDiscountTracker(Config config) {
+    public EshopDiscountTracker(Config config, List<Game> cache) {
         this.config = config;
+        this.cache = cache;
     }
 
     public void track() {
@@ -33,10 +35,10 @@ public class EshopDiscountTracker {
         ConfigUtil.merge(gameList, config);
 
         logger.info("Load alerts from Config");
-        ConfigUtil.loadAlertsFromConfig(gameList, config);
+        gameList.forEach(game -> ConfigUtil.loadAlertsFromConfig(game, config));
 
         logger.info("Enriching urls from cache");
-        CacheUtil.enrichFromCache(gameList);
+        gameList.forEach(game -> CacheUtil.enrichFromCache(game, cache));
 
         logger.info("Searching DekuDeals urls");
         gameList.forEach(game -> game.setDekuDealsUrl(dekuDealsParser.findGameUrl(game)));
@@ -44,7 +46,7 @@ public class EshopDiscountTracker {
         logger.info("Searching eshop-prices urls");
         gameList.forEach(game -> game.setEshopPricesUrl(eshopPricesParser.findGameUrl(game)));
 
-        if (config.getDebug()) {
+        if (config.isDebug()) {
             logger.warn("Debug mode active, limiting queue to 1");
             gameList.stream().filter(game -> game.getName().equals("The Witcher 3: Wild Hunt")).collect(Collectors.toList()).forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
         } else {

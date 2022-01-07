@@ -6,7 +6,6 @@ import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -15,8 +14,6 @@ import org.yaml.snakeyaml.representer.Representer;
 import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.cache.CacheContainer;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
 import java.util.Set;
@@ -27,26 +24,12 @@ public class CacheUtil {
     private static final Logger logger = Logger.getLogger(CacheUtil.class);
 
     @SneakyThrows
-    public static void enrichFromCache(List<Game> gameList) {
-        String fileName = "cache.yaml";
-        File file = new File(fileName);
-        if (!file.exists()) {
-            return;
-        }
-
-        CacheContainer gameListCacheContainer = new Yaml(new Constructor(CacheContainer.class)).load(new FileReader(file));
-        if (gameListCacheContainer == null) {
-            return;
-        }
-
-        List<Game> list = gameListCacheContainer.getCache();
-        for (Game game : gameList) {
-            Game cachedGame = list.stream().filter(g -> g.getName().equals(game.getName())).findFirst().orElse(null);
-            if (cachedGame != null) {
-                logger.info(String.format("Game found in cache: %s", game.getName()));
-                game.setDekuDealsUrl(cachedGame.getEshopPricesUrl());
-                game.setEshopPricesUrl(cachedGame.getEshopPricesUrl());
-            }
+    public static void enrichFromCache(Game game, List<Game> cache) {
+        Game cachedGame = cache.stream().filter(g -> g.getName().equals(game.getName())).findFirst().orElse(null);
+        if (cachedGame != null) {
+            logger.info(String.format("Game found in cache: %s", game.getName()));
+            game.setDekuDealsUrl(cachedGame.getEshopPricesUrl());
+            game.setEshopPricesUrl(cachedGame.getEshopPricesUrl());
         }
     }
 
