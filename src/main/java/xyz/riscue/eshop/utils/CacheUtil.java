@@ -9,11 +9,13 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.cache.CacheContainer;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
@@ -26,15 +28,24 @@ public class CacheUtil {
 
     @SneakyThrows
     public static void enrichFromCache(List<Game> gameList) {
-        CacheContainer gameListCacheContainer = new Yaml(new Constructor(CacheContainer.class)).load(new FileReader("cache.yaml"));
+        String fileName = "cache.yaml";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            return;
+        }
+
+        CacheContainer gameListCacheContainer = new Yaml(new Constructor(CacheContainer.class)).load(new FileReader(file));
+        if (gameListCacheContainer == null) {
+            return;
+        }
+
         List<Game> list = gameListCacheContainer.getCache();
         for (Game game : gameList) {
             Game cachedGame = list.stream().filter(g -> g.getName().equals(game.getName())).findFirst().orElse(null);
             if (cachedGame != null) {
-                logger.debug(String.format("Game found in cache: %s", game.getName()));
+                logger.info(String.format("Game found in cache: %s", game.getName()));
+                game.setDekuDealsUrl(cachedGame.getEshopPricesUrl());
                 game.setEshopPricesUrl(cachedGame.getEshopPricesUrl());
-            } else {
-                game.setEshopPricesUrl(null);
             }
         }
     }
@@ -60,6 +71,15 @@ public class CacheUtil {
             }
 
             return super.representJavaBean(properties, javaBean);
+        }
+
+        @Override
+        protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
+            if (propertyValue == null) {
+                return null;
+            } else {
+                return super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
+            }
         }
     }
 }

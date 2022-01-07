@@ -1,17 +1,16 @@
 package xyz.riscue.eshop.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import xyz.riscue.eshop.model.config.TrackableConfig;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Game {
+public class Game extends TrackableConfig {
     private String name;
     private List<RegionPrice> prices;
 

@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class RegionPrice {
     private Region region;
     private String price;
+    private String discountedPrice;
 }
