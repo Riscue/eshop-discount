@@ -27,7 +27,6 @@ public enum Region {
     IRELAND,
     ISRAEL,
     ITALY,
-    JAPAN,
     LATVIA,
     LITHUANIA,
     LUXEMBOURG,

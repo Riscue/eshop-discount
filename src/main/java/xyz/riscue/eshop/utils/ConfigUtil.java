@@ -12,6 +12,10 @@ import java.util.List;
 public class ConfigUtil {
 
     public static void merge(List<Game> gameList, Config config) {
+        if (config.getGame() == null) {
+            return;
+        }
+
         for (WishlistItem wishlistItem : config.getGame()) {
             boolean isExist = gameList.stream().anyMatch(g -> g.getName().equals(wishlistItem.getName()));
             if (!isExist) {
@@ -24,12 +28,14 @@ public class ConfigUtil {
     }
 
     public static void loadAlertsFromConfig(Game game, Config config) {
-        WishlistItem wishlistItem = config.getGame().stream().filter(w -> w.getName().equals(game.getName())).findFirst().orElse(null);
-        if (wishlistItem != null) {
-            game.setDiscountPrice(wishlistItem.getDiscountPrice());
-            game.setDiscountPercentage(wishlistItem.getDiscountPercentage());
-            game.setAllTimeLow(wishlistItem.getAllTimeLow());
-            game.setSignificantDiscount(wishlistItem.getSignificantDiscount());
+        if (config.getGame() != null) {
+            WishlistItem wishlistItem = config.getGame().stream().filter(w -> w.getName().equals(game.getName())).findFirst().orElse(null);
+            if (wishlistItem != null) {
+                game.setDiscountPrice(wishlistItem.getDiscountPrice());
+                game.setDiscountPercentage(wishlistItem.getDiscountPercentage());
+                game.setAllTimeLow(wishlistItem.getAllTimeLow());
+                game.setSignificantDiscount(wishlistItem.getSignificantDiscount());
+            }
         }
 
         if (game.getDiscountPrice() == null) {

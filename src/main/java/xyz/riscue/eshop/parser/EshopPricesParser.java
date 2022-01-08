@@ -14,7 +14,6 @@ import xyz.riscue.eshop.utils.StringUtil;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 public class EshopPricesParser {
 
@@ -45,18 +44,18 @@ public class EshopPricesParser {
         return null;
     }
 
-    public List<RegionPrice> fetchPrice(Game game) {
-        List<RegionPrice> priceList = new ArrayList<>();
+    public void enrich(Game game) {
+        game.setPrices(new ArrayList<>());
 
         if (game.getEshopPricesUrl() == null) {
-            return priceList;
+            return;
         }
 
         logger.info(String.format("Fetching price for game: %s", game.getName()));
 
         Document document = HttpRequestUtil.get(game.getEshopPricesUrl() + "?currency=USD", SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getEshopPricesCookies(), SiteHeaderUtil.getEshopPricesHeaders());
         if (document == null) {
-            return priceList;
+            return;
         }
 
         Elements items = document.select("table.prices-table > tbody > tr.pointer");
@@ -71,13 +70,12 @@ public class EshopPricesParser {
 
             Region region = Region.find(regionName);
             if (region != null) {
-                priceList.add(RegionPrice.builder()
+                game.getPrices().add(RegionPrice.builder()
                         .region(region)
                         .price(Double.parseDouble(price))
                         .discountedPrice(Double.parseDouble(discountedPrice))
                         .build());
             }
         }
-        return priceList;
     }
 }

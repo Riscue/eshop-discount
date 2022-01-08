@@ -50,16 +50,17 @@ public class EshopDiscountTracker {
         gameList.forEach(game -> game.setEshopPricesUrl(eshopPricesParser.findGameUrl(game)));
 
         if (config.isDebug()) {
-            logger.warn("Debug mode active, limiting queue to 1");
-            gameList.stream().filter(game -> game.getName().equals("The Witcher 3: Wild Hunt")).collect(Collectors.toList()).forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
+            logger.warn("Debug mode active, running cache only");
         } else {
-            logger.info("Fetching prices");
-            gameList.forEach(game -> game.setPrices(eshopPricesParser.fetchPrice(game)));
+            logger.info("Fetching eshop-prices game page");
+            gameList.forEach(eshopPricesParser::enrich);
         }
 
-        logger.info("Checking if any alert rule occured");
-        List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
-        alerts.forEach(alert -> logger.info(String.format("Alert -> %s: %s", alert.getName(), alert.getPrice().getDiscountedPrice())));
+        if (config.isAlert()) {
+            logger.info("Checking if any alert rule occured");
+            List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
+            alerts.forEach(alert -> logger.info(String.format("Alert -> %s: %s (%s) %s", alert.getName(), alert.getPrice().getDiscountedPrice(), alert.getPrice().getRegion(), alert.getAlerts())));
+        }
 
         logger.info("Caching urls to file");
         CacheUtil.cacheSearchResults(gameList);

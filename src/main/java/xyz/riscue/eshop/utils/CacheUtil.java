@@ -27,9 +27,11 @@ public class CacheUtil {
     public static void enrichFromCache(Game game, List<Game> cache) {
         Game cachedGame = cache.stream().filter(g -> g.getName().equals(game.getName())).findFirst().orElse(null);
         if (cachedGame != null) {
-            logger.info(String.format("Game found in cache: %s", game.getName()));
-            game.setDekuDealsUrl(cachedGame.getEshopPricesUrl());
+            logger.debug(String.format("Game found in cache: %s", game.getName()));
+            game.setDekuDealsUrl(cachedGame.getDekuDealsUrl());
             game.setEshopPricesUrl(cachedGame.getEshopPricesUrl());
+            game.setAllTimeLowPrice(cachedGame.getAllTimeLowPrice());
+            game.setPrices(cachedGame.getPrices());
         }
     }
 

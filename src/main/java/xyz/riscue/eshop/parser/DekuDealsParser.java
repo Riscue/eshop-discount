@@ -67,6 +67,8 @@ public class DekuDealsParser {
                             .build()
             );
         }
+
+        logger.info(String.format("%s games found in wishlist", games.size()));
         return games;
     }
 }
