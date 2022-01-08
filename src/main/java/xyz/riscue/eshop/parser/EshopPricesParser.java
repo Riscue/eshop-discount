@@ -3,6 +3,7 @@ package xyz.riscue.eshop.parser;
 import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.Region;
@@ -14,6 +15,7 @@ import xyz.riscue.eshop.utils.StringUtil;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class EshopPricesParser {
 
@@ -58,23 +60,37 @@ public class EshopPricesParser {
             return;
         }
 
-        Elements items = document.select("table.prices-table > tbody > tr.pointer");
-        for (Element item : items) {
-            String regionName = item.select("td:nth-child(2)").text().replace(" ", "_").toUpperCase();
-            String price = item.select("td:nth-child(4) div.discounted del").text().replace("$", "").trim();
-            String discountedPrice = item.select("td:nth-child(4)").text().replace(price, "").replace("$", "").trim();
-
-            if (item.select("td:nth-child(4) div.discounted del").isEmpty()) {
-                price = discountedPrice;
+        try {
+            Elements metacriticElements = document.select(".game-hero .game-score");
+            if (metacriticElements.size() == 1) {
+                String score = metacriticElements.textNodes().stream().map(TextNode::text).collect(Collectors.joining()).trim();
+                game.setMetacriticScore(Integer.valueOf(score));
             }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
 
-            Region region = Region.find(regionName);
-            if (region != null) {
-                game.getPrices().add(RegionPrice.builder()
-                        .region(region)
-                        .price(Double.parseDouble(price))
-                        .discountedPrice(Double.parseDouble(discountedPrice))
-                        .build());
+        Elements priceElements = document.select("table.prices-table > tbody > tr.pointer");
+        for (Element item : priceElements) {
+            try {
+                String regionName = item.select("td:nth-child(2)").text().replace(" ", "_").toUpperCase();
+                String price = item.select("td:nth-child(4) div.discounted del").text().replaceAll("[^\\d.]+", "").trim();
+                String discountedPrice = item.select("td:nth-child(4)").text().replace(price, "").replaceAll("[^\\d.]+", "").trim();
+
+                if (item.select("td:nth-child(4) div.discounted del").isEmpty()) {
+                    price = discountedPrice;
+                }
+
+                Region region = Region.find(regionName);
+                if (region != null) {
+                    game.getPrices().add(RegionPrice.builder()
+                            .region(region)
+                            .price(Double.parseDouble(price))
+                            .discountedPrice(Double.parseDouble(discountedPrice))
+                            .build());
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
             }
         }
     }

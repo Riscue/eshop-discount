@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import xyz.riscue.eshop.model.Game;
+import xyz.riscue.eshop.model.RegionPrice;
 import xyz.riscue.eshop.utils.HttpRequestUtil;
 import xyz.riscue.eshop.utils.SiteHeaderUtil;
 import xyz.riscue.eshop.utils.StringUtil;
@@ -42,6 +43,33 @@ public class DekuDealsParser {
         }
 
         return null;
+    }
+
+    public void enrich(Game game) {
+        if (game.getDekuDealsUrl() == null) {
+            return;
+        }
+
+        logger.info(String.format("Fetching price for game: %s", game.getName()));
+
+        Document document = HttpRequestUtil.get(game.getDekuDealsUrl(), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getDekuDealsCookies(), SiteHeaderUtil.getDekuDealsHeaders());
+        if (document == null) {
+            return;
+        }
+
+        try {
+            Elements allTimeLow = document.select("#price-history > table > tbody > tr:nth-child(2) > td.text-right.pl-3");
+            if (allTimeLow.size() == 1) {
+                game.setAllTimeLowPrice(
+                        RegionPrice.builder()
+                                .price(Double.parseDouble(allTimeLow.get(0).text().replaceAll("[^\\d.]+", "").trim()))
+                                .discountedPrice(Double.parseDouble(allTimeLow.get(0).text().replaceAll("[^\\d.]+", "").trim()))
+                                .build()
+                );
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     public List<Game> fetchWishlists(List<String> wishlists) {

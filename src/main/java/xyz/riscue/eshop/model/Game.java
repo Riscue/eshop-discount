@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Game extends TrackableConfig {
     private String name;
+    private Integer metacriticScore;
     private List<RegionPrice> prices;
     private RegionPrice allTimeLowPrice;
 

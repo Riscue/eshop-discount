@@ -2,6 +2,7 @@ package xyz.riscue.eshop.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.log4j.Logger;
 import xyz.riscue.eshop.model.Alert;
 import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.RegionPrice;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class AlertUtil {
+
+    private static final Logger logger = Logger.getLogger(AlertUtil.class);
 
     public static Alert checkAlertOccured(Game game) {
         if (game == null || game.getPrices() == null) {
@@ -70,5 +73,9 @@ public class AlertUtil {
 
     private static boolean checkAllTimeLow(RegionPrice price, RegionPrice allTimeLowPrice) {
         return allTimeLowPrice != null && price.getDiscountedPrice() <= allTimeLowPrice.getDiscountedPrice();
+    }
+
+    public static void logAlerts(List<Alert> alerts) {
+        alerts.stream().sorted(Comparator.comparing(a -> a.getPrice().getRegion())).forEach(alert -> logger.info(String.format("Alert -> %s: %s (%s) %s", alert.getName(), alert.getPrice().getDiscountedPrice(), alert.getPrice().getRegion(), alert.getAlerts())));
     }
 }
