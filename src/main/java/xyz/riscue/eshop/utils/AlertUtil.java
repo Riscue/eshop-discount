@@ -34,11 +34,11 @@ public class AlertUtil {
         }
         if (game.getDiscountPercentage() != null) {
             if (checkDiscountPercentage(price, game.getDiscountPercentage())) {
-                alertReasons.add(String.format("Discount percentage %s", calculateDiscountPercentage(price)));
+                alertReasons.add(String.format("Discount percentage %s", game.getDiscountPercentage()));
             }
         } else {
             if (game.getSignificantDiscount() != null && game.getSignificantDiscount() && checkDiscountPercentage(price, 25)) {
-                alertReasons.add(String.format("Significant discount %s", calculateDiscountPercentage(price)));
+                alertReasons.add(String.format("Significant discount %s", 25));
             }
         }
 
@@ -68,14 +68,17 @@ public class AlertUtil {
 
     private static double calculateDiscountPercentage(RegionPrice price) {
         double calculatedDiscount = (price.getPrice() - price.getDiscountedPrice()) / price.getPrice() * 100;
-        return BigDecimal.valueOf(calculatedDiscount).setScale(0, RoundingMode.CEILING).doubleValue();
+        return BigDecimal.valueOf(calculatedDiscount).setScale(0, RoundingMode.HALF_UP).doubleValue();
     }
 
-    private static boolean checkAllTimeLow(RegionPrice price, RegionPrice allTimeLowPrice) {
-        return allTimeLowPrice != null && price.getDiscountedPrice() <= allTimeLowPrice.getDiscountedPrice();
+    private static boolean checkAllTimeLow(RegionPrice price, Double allTimeLowPrice) {
+        return allTimeLowPrice != null && price.getDiscountedPrice() <= allTimeLowPrice;
     }
 
     public static void logAlerts(List<Alert> alerts) {
-        alerts.stream().sorted(Comparator.comparing(a -> a.getPrice().getRegion())).forEach(alert -> logger.info(String.format("Alert -> %s: %s (%s) %s", alert.getName(), alert.getPrice().getDiscountedPrice(), alert.getPrice().getRegion(), alert.getAlerts())));
+        alerts.stream()
+                .sorted(Comparator.comparing(a -> a.getPrice().getRegion()))
+                .map(alert -> String.format("Alert -> %s (%s): %s(%%%s) %s", alert.getName(), alert.getPrice().getRegion(), alert.getPrice().getDiscountedPrice(), calculateDiscountPercentage(alert.getPrice()), alert.getAlerts()))
+                .forEach(logger::info);
     }
 }

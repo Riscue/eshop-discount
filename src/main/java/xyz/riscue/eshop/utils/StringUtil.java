@@ -3,6 +3,7 @@ package xyz.riscue.eshop.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import name.fraser.neil.plaintext.DiffMatchPatch;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -20,4 +21,27 @@ public class StringUtil {
 
         return diffSum < 5;
     }
+
+    public static String capitalize(String str) {
+        if (!StringUtils.isEmpty(str)) {
+            str = str.toLowerCase();
+            char[] buffer = str.toCharArray();
+            boolean capitalizeNext = true;
+
+            for (int i = 0; i < buffer.length; ++i) {
+                char ch = buffer[i];
+                if (Character.isWhitespace(ch)) {
+                    capitalizeNext = true;
+                } else if (capitalizeNext) {
+                    buffer[i] = Character.toTitleCase(ch);
+                    capitalizeNext = false;
+                }
+            }
+
+            return new String(buffer);
+        } else {
+            return str;
+        }
+    }
+
 }

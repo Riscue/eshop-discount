@@ -1,6 +1,7 @@
 package xyz.riscue.eshop.model;
 
 import org.apache.log4j.Logger;
+import xyz.riscue.eshop.utils.StringUtil;
 
 @SuppressWarnings("unused")
 public enum Region {
@@ -57,5 +58,10 @@ public enum Region {
             Logger.getLogger(Region.class).debug(e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public String toString() {
+        return StringUtil.capitalize(name().replace("_", " "));
     }
 }
