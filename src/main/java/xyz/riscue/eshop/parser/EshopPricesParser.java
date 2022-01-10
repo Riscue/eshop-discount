@@ -53,7 +53,7 @@ public class EshopPricesParser {
             return;
         }
 
-        logger.info(String.format("Fetching price for game: %s", game.getName()));
+        logger.info(String.format("Fetching data for game: %s", game.getName()));
 
         Document document = HttpRequestUtil.get(game.getEshopPricesUrl() + "?currency=USD", SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getEshopPricesCookies(), SiteHeaderUtil.getEshopPricesHeaders());
         if (document == null) {

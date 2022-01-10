@@ -31,7 +31,7 @@ public class EshopDiscountTracker {
         DekuDealsParser dekuDealsParser = new DekuDealsParser();
         EshopPricesParser eshopPricesParser = new EshopPricesParser();
 
-        logger.info("Fetching wishlist");
+        logger.info("Fetching wishlists");
         List<Game> gameList = dekuDealsParser.fetchWishlists(config.getWishlist());
 
         logger.info("Merge DekuDeals Wishlist and Custom Wishlist");

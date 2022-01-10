@@ -50,7 +50,7 @@ public class DekuDealsParser {
             return;
         }
 
-        logger.info(String.format("Fetching price for game: %s", game.getName()));
+        logger.info(String.format("Fetching data for game: %s", game.getName()));
 
         Document document = HttpRequestUtil.get(game.getDekuDealsUrl(), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getDekuDealsCookies(), SiteHeaderUtil.getDekuDealsHeaders());
         if (document == null) {
