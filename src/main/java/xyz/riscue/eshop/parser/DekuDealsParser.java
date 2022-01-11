@@ -19,14 +19,16 @@ public class DekuDealsParser {
 
     private static final Logger logger = Logger.getLogger(DekuDealsParser.class);
 
+    private static final String DOMAIN = "dekudeals.com";
+
     public String findGameUrl(Game game) {
-        if (game.getDekuDealsUrl() != null && !game.getDekuDealsUrl().isEmpty()) {
+        if (StringUtil.notEmpty(game.getDekuDealsUrl())) {
             return game.getDekuDealsUrl();
         }
 
         logger.info(String.format("Searching for game url: %s", game.getName()));
 
-        Document document = HttpRequestUtil.get("https://www.dekudeals.com/search?filter[type]=game&q=" + URLEncoder.encode(game.getName(), StandardCharsets.UTF_8), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getDekuDealsCookies(), SiteHeaderUtil.getDekuDealsHeaders());
+        Document document = HttpRequestUtil.get("https://www.dekudeals.com/search?filter[type]=game&q=" + URLEncoder.encode(game.getName(), StandardCharsets.UTF_8), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
         if (document == null) {
             return null;
         }
@@ -49,9 +51,9 @@ public class DekuDealsParser {
             return;
         }
 
-        logger.info(String.format("Fetching price for game: %s", game.getName()));
+        logger.info(String.format("Fetching data for game: %s", game.getName()));
 
-        Document document = HttpRequestUtil.get(game.getDekuDealsUrl(), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getDekuDealsCookies(), SiteHeaderUtil.getDekuDealsHeaders());
+        Document document = HttpRequestUtil.get(game.getDekuDealsUrl(), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
         if (document == null) {
             return;
         }
@@ -75,7 +77,7 @@ public class DekuDealsParser {
 
         logger.info(String.format("Fetching wishlist: %s", wishlistUrl));
 
-        Document document = HttpRequestUtil.get(wishlistUrl, SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getDekuDealsCookies(), SiteHeaderUtil.getDekuDealsHeaders());
+        Document document = HttpRequestUtil.get(wishlistUrl, SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
         if (document == null) {
             return games;
         }

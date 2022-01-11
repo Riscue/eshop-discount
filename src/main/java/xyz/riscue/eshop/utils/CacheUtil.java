@@ -2,7 +2,6 @@ package xyz.riscue.eshop.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -23,7 +22,6 @@ public class CacheUtil {
 
     private static final Logger logger = Logger.getLogger(CacheUtil.class);
 
-    @SneakyThrows
     public static void enrichFromCache(Game game, List<Game> cache) {
         Game cachedGame = cache.stream().filter(g -> g.getName().equals(game.getName())).findFirst().orElse(null);
         if (cachedGame != null) {
@@ -35,7 +33,6 @@ public class CacheUtil {
         }
     }
 
-    @SneakyThrows
     public static void cacheSearchResults(List<Game> gameList) {
         DumperOptions options = new DumperOptions();
         options.setIndent(2);
@@ -45,7 +42,11 @@ public class CacheUtil {
         Representer representer = new MapRepresenter();
 
         Yaml yaml = new Yaml(representer, options);
-        yaml.dump(new CacheContainer(gameList), new FileWriter("cache.yaml"));
+        try {
+            yaml.dump(new CacheContainer(gameList), new FileWriter("cache.yaml"));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     public static class MapRepresenter extends Representer {

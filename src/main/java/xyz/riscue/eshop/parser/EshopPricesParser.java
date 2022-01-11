@@ -21,14 +21,16 @@ public class EshopPricesParser {
 
     private static final Logger logger = Logger.getLogger(EshopPricesParser.class);
 
+    private static final String DOMAIN = "eshop-prices.com";
+
     public String findGameUrl(Game game) {
-        if (game.getEshopPricesUrl() != null && !game.getEshopPricesUrl().isEmpty()) {
+        if (StringUtil.notEmpty(game.getEshopPricesUrl())) {
             return game.getEshopPricesUrl();
         }
 
         logger.info(String.format("Searching for game url: %s", game.getName()));
 
-        Document document = HttpRequestUtil.get("https://eshop-prices.com/games?q=" + URLEncoder.encode(game.getName(), StandardCharsets.UTF_8), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getEshopPricesCookies(), SiteHeaderUtil.getEshopPricesHeaders());
+        Document document = HttpRequestUtil.get("https://eshop-prices.com/games?q=" + URLEncoder.encode(game.getName(), StandardCharsets.UTF_8), SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
         if (document == null) {
             return null;
         }
@@ -53,9 +55,9 @@ public class EshopPricesParser {
             return;
         }
 
-        logger.info(String.format("Fetching price for game: %s", game.getName()));
+        logger.info(String.format("Fetching data for game: %s", game.getName()));
 
-        Document document = HttpRequestUtil.get(game.getEshopPricesUrl() + "?currency=USD", SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getEshopPricesCookies(), SiteHeaderUtil.getEshopPricesHeaders());
+        Document document = HttpRequestUtil.get(game.getEshopPricesUrl() + "?currency=USD", SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
         if (document == null) {
             return;
         }

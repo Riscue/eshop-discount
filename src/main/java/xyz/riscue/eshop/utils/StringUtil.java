@@ -22,6 +22,14 @@ public class StringUtil {
         return diffSum < 5;
     }
 
+    public static boolean notEmpty(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    public static String ifPresentOrDefault(String value, String defaulValue) {
+        return value != null && !value.trim().isEmpty() ? value : defaulValue;
+    }
+
     public static String capitalize(String str) {
         if (!StringUtils.isEmpty(str)) {
             str = str.toLowerCase();
