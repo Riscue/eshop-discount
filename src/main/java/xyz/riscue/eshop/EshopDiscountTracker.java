@@ -49,9 +49,6 @@ public class EshopDiscountTracker {
         if (config.isCache()) {
             logger.warn("Running cache only");
         } else {
-            logger.info("Fetching DekuDeals game page");
-            gameList.forEach(dekuDealsParser::enrich);
-
             logger.info("Fetching eshop-prices game page");
             gameList.forEach(eshopPricesParser::enrich);
         }

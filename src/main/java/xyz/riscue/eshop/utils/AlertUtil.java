@@ -32,13 +32,14 @@ public class AlertUtil {
         if ((game.getDiscountPrice() != null && checkDiscountPrice(price, game.getDiscountPrice()))) {
             alertReasons.add(String.format("Price under %s", game.getDiscountPrice()));
         }
+
         if (game.getDiscountPercentage() != null) {
             if (checkDiscountPercentage(price, game.getDiscountPercentage())) {
-                alertReasons.add(String.format("Discount percentage %s", game.getDiscountPercentage()));
+                alertReasons.add(String.format("Discount %%%s+", game.getDiscountPercentage()));
             }
         } else {
             if (game.getSignificantDiscount() != null && game.getSignificantDiscount() && checkDiscountPercentage(price, 25)) {
-                alertReasons.add(String.format("Significant discount %s", 25));
+                alertReasons.add(String.format("Significant discount %%%s+", 25));
             }
         }
 
@@ -66,9 +67,9 @@ public class AlertUtil {
         return calculateDiscountPercentage(price) >= discountPercentage;
     }
 
-    private static double calculateDiscountPercentage(RegionPrice price) {
+    private static int calculateDiscountPercentage(RegionPrice price) {
         double calculatedDiscount = (price.getPrice() - price.getDiscountedPrice()) / price.getPrice() * 100;
-        return BigDecimal.valueOf(calculatedDiscount).setScale(0, RoundingMode.HALF_UP).doubleValue();
+        return BigDecimal.valueOf(calculatedDiscount).setScale(0, RoundingMode.HALF_UP).intValue();
     }
 
     private static boolean checkAllTimeLow(RegionPrice price, Double allTimeLowPrice) {

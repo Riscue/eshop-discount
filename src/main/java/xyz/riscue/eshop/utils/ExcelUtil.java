@@ -60,7 +60,9 @@ public class ExcelUtil {
             for (Region region : Region.values()) {
                 RegionPrice regionPrice = prices.stream().filter(rp -> rp.getRegion().equals(region)).findFirst().orElse(null);
                 Cell cell = row.createCell(row.getLastCellNum());
-                cell.setCellValue(regionPrice == null ? 0 : regionPrice.getDiscountedPrice());
+                if (regionPrice != null) {
+                    cell.setCellValue(regionPrice.getDiscountedPrice());
+                }
             }
         }
     }
