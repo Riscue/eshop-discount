@@ -6,6 +6,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.cache.CacheContainer;
 import xyz.riscue.eshop.model.config.Config;
+import xyz.riscue.eshop.utils.SiteHeaderUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,8 @@ public class Main {
     public static void main(String[] args) {
         Config config = parseConfig();
         List<Game> cache = parseCache();
+        SiteHeaderUtil.setHeaders(config.getHeaders());
+        SiteHeaderUtil.setCookies(config.getCookies());
         EshopDiscountTracker eshopDiscountTracker = new EshopDiscountTracker(config, cache);
         eshopDiscountTracker.track();
     }
