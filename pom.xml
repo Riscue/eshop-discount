@@ -22,6 +22,7 @@
         <log4j.version>1.2.17</log4j.version>
         <guava.version>31.0.1-jre</guava.version>
         <poi-ooxml.version>4.1.0</poi-ooxml.version>
+        <mail.version>1.4.7</mail.version>
     </properties>
 
     <dependencies>
@@ -72,6 +73,12 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${poi-ooxml.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${mail.version}</version>
         </dependency>
     </dependencies>
 </project>

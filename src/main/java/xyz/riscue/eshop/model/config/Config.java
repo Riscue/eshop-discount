@@ -10,6 +10,7 @@ import java.util.List;
 public class Config extends TrackableConfig {
     private boolean cache = false;
     private boolean alert = false;
+    private MailConfig mail;
     private List<String> wishlist;
     private List<WishlistItem> game;
 }

@@ -6,10 +6,7 @@ import xyz.riscue.eshop.model.Game;
 import xyz.riscue.eshop.model.config.Config;
 import xyz.riscue.eshop.parser.DekuDealsParser;
 import xyz.riscue.eshop.parser.EshopPricesParser;
-import xyz.riscue.eshop.utils.AlertUtil;
-import xyz.riscue.eshop.utils.CacheUtil;
-import xyz.riscue.eshop.utils.ConfigUtil;
-import xyz.riscue.eshop.utils.ExcelUtil;
+import xyz.riscue.eshop.utils.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +60,11 @@ public class EshopDiscountTracker {
             logger.info("Checking if any alert rule occured");
             List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
             AlertUtil.logAlerts(alerts);
+
+            if (config.getMail() != null) {
+                logger.info("Sending mails");
+                MailService.send(config.getMail(), MailTemplates.ALERT_SUBJECT, MailTemplates.prepareContent(alerts));
+            }
         }
 
         logger.info("Caching urls to file");

@@ -22,7 +22,7 @@ public class EshopPricesParser {
     private static final Logger logger = Logger.getLogger(EshopPricesParser.class);
 
     public String findGameUrl(Game game) {
-        if (game.getEshopPricesUrl() != null && !game.getEshopPricesUrl().isEmpty()) {
+        if (StringUtil.notEmpty(game.getEshopPricesUrl())) {
             return game.getEshopPricesUrl();
         }
 

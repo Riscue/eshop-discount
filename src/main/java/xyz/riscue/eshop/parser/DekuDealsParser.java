@@ -21,7 +21,7 @@ public class DekuDealsParser {
     private static final Logger logger = Logger.getLogger(DekuDealsParser.class);
 
     public String findGameUrl(Game game) {
-        if (game.getDekuDealsUrl() != null && !game.getDekuDealsUrl().isEmpty()) {
+        if (StringUtil.notEmpty(game.getDekuDealsUrl())) {
             return game.getDekuDealsUrl();
         }
 

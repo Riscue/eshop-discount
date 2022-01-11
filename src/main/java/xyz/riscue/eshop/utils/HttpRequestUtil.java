@@ -19,7 +19,7 @@ public class HttpRequestUtil {
 
     private static final RateLimiter throttle = RateLimiter.create(0.5);
 
-    @SneakyThrows
+    @SneakyThrows(value = InterruptedException.class)
     public static Document get(String url, String userAgent, Map<String, String> cookies, Map<String, String> headers) {
         throttle.acquire();
 
@@ -43,6 +43,8 @@ public class HttpRequestUtil {
                 } else {
                     return null;
                 }
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
             }
         } while (retry < 3);
 
