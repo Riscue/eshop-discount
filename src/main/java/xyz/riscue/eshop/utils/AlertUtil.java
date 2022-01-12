@@ -23,34 +23,34 @@ public class AlertUtil {
             return null;
         }
 
-        RegionPrice price = game.getPrices().stream().min(Comparator.comparing(RegionPrice::getPrice)).orElse(null);
-        if (price == null) {
+        RegionPrice minPrice = game.getPrices().stream().min(Comparator.comparing(RegionPrice::getPrice)).orElse(null);
+        if (minPrice == null) {
             return null;
         }
 
         List<String> alertReasons = new ArrayList<>();
-        if ((game.getDiscountPrice() != null && checkDiscountPrice(price, game.getDiscountPrice()))) {
+        if ((game.getDiscountPrice() != null && checkDiscountPrice(minPrice, game.getDiscountPrice()))) {
             alertReasons.add(String.format("Price under %s", game.getDiscountPrice()));
         }
 
         if (game.getDiscountPercentage() != null) {
-            if (checkDiscountPercentage(price, game.getDiscountPercentage())) {
+            if (checkDiscountPercentage(minPrice, game.getDiscountPercentage())) {
                 alertReasons.add(String.format("Discount %%%s+", game.getDiscountPercentage()));
             }
         } else {
-            if (game.getSignificantDiscount() != null && game.getSignificantDiscount() && checkDiscountPercentage(price, 25)) {
+            if (game.getSignificantDiscount() != null && game.getSignificantDiscount() && checkDiscountPercentage(minPrice, 25)) {
                 alertReasons.add(String.format("Significant discount %%%s+", 25));
             }
         }
 
-        if (game.getAllTimeLow() != null && game.getAllTimeLow() && checkAllTimeLow(price, game.getAllTimeLowPrice())) {
+        if (game.getAllTimeLow() != null && game.getAllTimeLow() && checkAllTimeLow(minPrice, game.getAllTimeLowPrice())) {
             alertReasons.add("Price is all time low");
         }
 
         if (!alertReasons.isEmpty()) {
             return Alert.builder()
                     .name(game.getName())
-                    .price(price)
+                    .price(minPrice)
                     .dekuDealsUrl(game.getDekuDealsUrl())
                     .eshopPricesUrl(game.getEshopPricesUrl())
                     .alerts(alertReasons)
