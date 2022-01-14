@@ -1,0 +1,14 @@
+cache: true
+wishlist:
+  - https://www.dekudeals.com/wishlist/yc4tqb7mt7
+alert:
+  disabled: false
+  sale: true
+mail:
+  disabled: false
+  username: eshop-discount@riscue.xyz
+  password: 6thGNfl33dzhbBVVcFjmS20iR9cYMEcN3i71u0mjL1Pq3sjmK
+  host: riscue.xyz
+  port: 465
+  to:
+    - ibrahim@ibrahimakyel.com
