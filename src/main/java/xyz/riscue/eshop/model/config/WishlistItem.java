@@ -1,11 +1,10 @@
 package xyz.riscue.eshop.model.config;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @SuppressWarnings("unused")
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class WishlistItem extends TrackableConfig {
+public class WishlistItem {
     private String name;
+    private AlertConfig alert;
 }

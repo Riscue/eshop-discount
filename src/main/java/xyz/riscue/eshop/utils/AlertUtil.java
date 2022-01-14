@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class AlertUtil {
@@ -23,27 +24,32 @@ public class AlertUtil {
             return null;
         }
 
-        RegionPrice minPrice = game.getPrices().stream().min(Comparator.comparing(RegionPrice::getPrice)).orElse(null);
+        RegionPrice minPrice = game.getPrices().stream().min(Comparator.comparing(RegionPrice::getDiscountedPrice)).orElse(null);
         if (minPrice == null) {
             return null;
         }
 
         List<String> alertReasons = new ArrayList<>();
-        if ((game.getDiscountPrice() != null && checkDiscountPrice(minPrice, game.getDiscountPrice()))) {
-            alertReasons.add(String.format("Price under %s", game.getDiscountPrice()));
+
+        if (Boolean.TRUE.equals(game.getAlert() != null && game.getAlert().getSale() != null && game.getAlert().getSale()) && !Objects.equals(minPrice.getPrice(), minPrice.getDiscountedPrice())) {
+            alertReasons.add("The game is on sale");
         }
 
-        if (game.getDiscountPercentage() != null) {
-            if (checkDiscountPercentage(minPrice, game.getDiscountPercentage())) {
-                alertReasons.add(String.format("Discount %%%s+", game.getDiscountPercentage()));
+        if (game.getAlert() != null && game.getAlert().getDiscountPrice() != null && checkDiscountPrice(minPrice, game.getAlert().getDiscountPrice())) {
+            alertReasons.add(String.format("Price under %s", game.getAlert().getDiscountPrice()));
+        }
+
+        if (game.getAlert() != null && game.getAlert().getDiscountPercentage() != null) {
+            if (checkDiscountPercentage(minPrice, game.getAlert().getDiscountPercentage())) {
+                alertReasons.add(String.format("Discount %%%s+", game.getAlert().getDiscountPercentage()));
             }
         } else {
-            if (game.getSignificantDiscount() != null && game.getSignificantDiscount() && checkDiscountPercentage(minPrice, 25)) {
+            if (Boolean.TRUE.equals(game.getAlert() != null && game.getAlert().getSignificantDiscount() != null && game.getAlert().getSignificantDiscount()) && checkDiscountPercentage(minPrice, 25)) {
                 alertReasons.add(String.format("Significant discount %%%s+", 25));
             }
         }
 
-        if (game.getAllTimeLow() != null && game.getAllTimeLow() && checkAllTimeLow(minPrice, game.getAllTimeLowPrice())) {
+        if (Boolean.TRUE.equals(game.getAlert() != null && game.getAlert().getAllTimeLow() != null && game.getAlert().getAllTimeLow()) && checkAllTimeLow(minPrice, game.getAllTimeLowPrice())) {
             alertReasons.add("Price is all time low");
         }
 

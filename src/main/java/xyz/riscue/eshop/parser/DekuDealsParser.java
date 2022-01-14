@@ -46,6 +46,7 @@ public class DekuDealsParser {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public void enrich(Game game) {
         if (game.getDekuDealsUrl() == null) {
             return;

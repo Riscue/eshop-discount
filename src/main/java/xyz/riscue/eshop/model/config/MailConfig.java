@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class MailConfig {
-    private boolean disabled;
+    private Boolean disabled;
     private String host;
     private String port;
     private String username;
