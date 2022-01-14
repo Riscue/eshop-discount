@@ -74,8 +74,8 @@ public class ExcelUtil {
         maxPriceCellFormat.setFillForegroundColor(IndexedColors.RED.getIndex());
         maxPriceCellFormat.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-        RegionPrice minPrice = prices.stream().min(Comparator.comparing(RegionPrice::getPrice)).orElse(null);
-        RegionPrice maxPrice = prices.stream().max(Comparator.comparing(RegionPrice::getPrice)).orElse(null);
+        RegionPrice minPrice = prices.stream().min(Comparator.comparing(RegionPrice::getDiscountedPrice)).orElse(null);
+        RegionPrice maxPrice = prices.stream().max(Comparator.comparing(RegionPrice::getDiscountedPrice)).orElse(null);
 
         for (Region region : Region.values()) {
             RegionPrice regionPrice = prices.stream().filter(rp -> rp.getRegion().equals(region)).findFirst().orElse(null);
