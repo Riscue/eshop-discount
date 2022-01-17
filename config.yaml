@@ -4,6 +4,129 @@ wishlist:
 alert:
   disabled: false
   sale: true
+  discountPrice: 3
+  discountPercentage: 80
+game:
+  - name: 'Super Mario Odyssey'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'Mario Kart 8 Deluxe'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'Super Mario 3D World + Bowser’s Fury'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'Mario Party Superstars'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'New Super Mario Bros. U Deluxe'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'The Legend of Zelda: Breath of the Wild'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'The Legend of Zelda: Link’s Awakening'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'The Legend of Zelda: Skyward Sword HD'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'Super Smash Bros. Ultimate'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'Pokémon: Let’s Go, Eevee!'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'Pokémon Sword'
+    alert:
+      discountPercentage: 25
+      discountPrice: 10
+  - name: 'The House in Fata Morgana: Dreams of the Revenants Edition'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Ori and the Will of the Wisps'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Celeste'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Bayonetta 2'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Hollow Knight'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Animal Crossing: New Horizons'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Xenoblade Chronicles Definitive Edition'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Fire Emblem: Three Houses'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'MONSTER HUNTER RISE'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Metroid Dread'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Diablo III: Eternal Collection'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Luigi’s Mansion 3'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Minecraft'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Pikmin 3 Deluxe'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Splatoon 2'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Captain Toad: Treasure Tracker'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Torchlight II'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Children of Morta'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
+  - name: 'Trine 4: The Nightmare Prince'
+    alert:
+      discountPercentage: 50
+      discountPrice: 10
 mail:
   disabled: false
   username: eshop-discount@riscue.xyz

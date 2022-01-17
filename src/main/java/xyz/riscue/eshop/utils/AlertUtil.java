@@ -73,7 +73,7 @@ public class AlertUtil {
         return calculateDiscountPercentage(price) >= discountPercentage;
     }
 
-    private static int calculateDiscountPercentage(RegionPrice price) {
+    public static int calculateDiscountPercentage(RegionPrice price) {
         double calculatedDiscount = (price.getPrice() - price.getDiscountedPrice()) / price.getPrice() * 100;
         return BigDecimal.valueOf(calculatedDiscount).setScale(0, RoundingMode.HALF_UP).intValue();
     }
@@ -85,7 +85,7 @@ public class AlertUtil {
     public static void logAlerts(List<Alert> alerts) {
         alerts.stream()
                 .sorted(Comparator.comparing(a -> a.getPrice().getRegion()))
-                .map(alert -> String.format("Alert -> %s (%s): %s(%%%s) %s", alert.getName(), alert.getPrice().getRegion(), alert.getPrice().getDiscountedPrice(), calculateDiscountPercentage(alert.getPrice()), alert.getAlerts()))
+                .map(alert -> String.format("Alert -> " + MailTemplates.ALERT_CONTENT_ITEM, alert.getName(), alert.getPrice().getRegion(), alert.getPrice().getDiscountedPrice(), calculateDiscountPercentage(alert.getPrice()), alert.getAlerts()))
                 .forEach(logger::info);
     }
 }
