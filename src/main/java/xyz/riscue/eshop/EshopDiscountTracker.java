@@ -53,12 +53,12 @@ public class EshopDiscountTracker {
             gameList.forEach(eshopPricesParser::enrich);
         }
 
-        if (config.getAlert() != null && !config.getAlert().getDisabled()) {
+        if (config.getAlert() != null && config.getAlert().getDisabled() != null && Boolean.TRUE.equals(!config.getAlert().getDisabled())) {
             logger.info("Checking if any alert rule occured");
             List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
             AlertUtil.logAlerts(alerts);
 
-            if (config.getMail() != null && !config.getMail().getDisabled()) {
+            if (config.getMail() != null && config.getMail().getDisabled() != null && Boolean.TRUE.equals(!config.getMail().getDisabled())) {
                 logger.info("Sending mails");
                 MailService.send(config.getMail(), MailTemplates.ALERT_SUBJECT, MailTemplates.prepareContent(alerts));
             }
