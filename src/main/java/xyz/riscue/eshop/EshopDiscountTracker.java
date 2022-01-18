@@ -43,8 +43,12 @@ public class EshopDiscountTracker {
         logger.info("Searching DekuDeals urls");
         gameList.forEach(game -> game.setDekuDealsUrl(dekuDealsParser.findGameUrl(game)));
 
+        CacheUtil.cacheSearchResults(gameList);
+
         logger.info("Searching eshop-prices urls");
         gameList.forEach(game -> game.setEshopPricesUrl(eshopPricesParser.findGameUrl(game)));
+
+        CacheUtil.cacheSearchResults(gameList);
 
         if (config.isCache()) {
             logger.warn("Running cache only");
@@ -52,6 +56,8 @@ public class EshopDiscountTracker {
             logger.info("Fetching eshop-prices game page");
             gameList.forEach(eshopPricesParser::enrich);
         }
+
+        CacheUtil.cacheSearchResults(gameList);
 
         if (config.getAlert() != null && config.getAlert().getDisabled() != null && Boolean.TRUE.equals(!config.getAlert().getDisabled())) {
             logger.info("Checking if any alert rule occured");
