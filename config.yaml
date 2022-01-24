@@ -42,35 +42,11 @@ game:
     alert:
       discountPrice: 10
       discountPercentage: 25
-  - name: 'Pokémon: Let’s Go, Eevee!'
-    alert:
-      discountPrice: 10
-      discountPercentage: 25
   - name: Pokémon Sword
     alert:
       discountPrice: 10
       discountPercentage: 25
-  - name: 'The House in Fata Morgana: Dreams of the Revenants Edition'
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
   - name: Ori and the Will of the Wisps
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Celeste
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Bayonetta 2
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Hollow Knight
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: 'Animal Crossing: New Horizons'
     alert:
       discountPrice: 10
       discountPercentage: 50
@@ -79,14 +55,6 @@ game:
       discountPrice: 10
       discountPercentage: 50
   - name: 'Fire Emblem: Three Houses'
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: MONSTER HUNTER RISE
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Metroid Dread
     alert:
       discountPrice: 10
       discountPercentage: 50
@@ -99,30 +67,6 @@ game:
       discountPrice: 10
       discountPercentage: 50
   - name: Minecraft
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Pikmin 3 Deluxe
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Splatoon 2
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: 'Captain Toad: Treasure Tracker'
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Torchlight II
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: Children of Morta
-    alert:
-      discountPrice: 10
-      discountPercentage: 50
-  - name: 'Trine 4: The Nightmare Prince'
     alert:
       discountPrice: 10
       discountPercentage: 50
