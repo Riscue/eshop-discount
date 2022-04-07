@@ -64,7 +64,7 @@ public class EshopDiscountTracker {
             List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
             AlertUtil.logAlerts(alerts);
 
-            if (config.getMail() != null && config.getMail().getDisabled() == null || Boolean.TRUE.equals(!config.getMail().getDisabled())) {
+            if (!alerts.isEmpty() && (config.getMail() != null && config.getMail().getDisabled() == null || Boolean.TRUE.equals(!config.getMail().getDisabled()))) {
                 logger.info("Sending mails");
                 MailService.send(config.getMail(), MailTemplates.ALERT_SUBJECT, MailTemplates.prepareContent(alerts));
             }

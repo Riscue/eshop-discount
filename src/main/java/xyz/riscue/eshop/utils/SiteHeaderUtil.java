@@ -9,7 +9,7 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class SiteHeaderUtil {
 
-    private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36";
+    private static final String USER_AGENT = "Eshop-Discount";
 
     private static final Map<String, Map<String, String>> headers = new HashMap<>();
     private static final Map<String, Map<String, String>> cookies = new HashMap<>();
