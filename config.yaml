@@ -78,6 +78,10 @@ game:
     alert:
       discountPrice: 7
       discountPercentage: 70
+  - name: Death Squared
+    alert:
+      discountPrice: 1
+      discountPercentage: 90
 mail:
   host: riscue.xyz
   port: 465
