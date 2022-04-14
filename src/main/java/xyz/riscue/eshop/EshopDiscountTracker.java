@@ -59,7 +59,7 @@ public class EshopDiscountTracker {
 
         CacheUtil.cacheSearchResults(gameList);
 
-        if (config.getAlert() != null && config.getAlert().getDisabled() == null || Boolean.TRUE.equals(!config.getAlert().getDisabled())) {
+        if (config.getAlert() != null && config.getAlert().getDisabled() == null || config.getAlert() != null && Boolean.TRUE.equals(!config.getAlert().getDisabled()) || config.getAlert() == null) {
             logger.info("Checking if any alert rule occured");
             List<Alert> alerts = gameList.stream().map(AlertUtil::checkAlertOccured).filter(Objects::nonNull).collect(Collectors.toList());
             AlertUtil.logAlerts(alerts);

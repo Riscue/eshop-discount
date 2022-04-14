@@ -70,6 +70,14 @@ game:
     alert:
       discountPrice: 10
       discountPercentage: 50
+  - name: Immortals Fenyx Rising
+    alert:
+      discountPrice: 15
+      discountPercentage: 70
+  - name: Children of Morta
+    alert:
+      discountPrice: 7
+      discountPercentage: 70
 mail:
   host: riscue.xyz
   port: 465

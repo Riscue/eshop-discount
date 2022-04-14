@@ -46,23 +46,26 @@ public class ConfigUtil {
         if (game.getAlert() == null) {
             game.setAlert(new AlertConfig());
         }
-        if (game.getAlert().getDisabled() == null) {
-            game.getAlert().setDisabled(config.getAlert().getDisabled());
-        }
-        if (game.getAlert().getSale() == null) {
-            game.getAlert().setSale(config.getAlert().getSale());
-        }
-        if (game.getAlert().getDiscountPrice() == null) {
-            game.getAlert().setDiscountPrice(config.getAlert().getDiscountPrice());
-        }
-        if (game.getAlert().getDiscountPercentage() == null) {
-            game.getAlert().setDiscountPercentage(config.getAlert().getDiscountPercentage());
-        }
-        if (game.getAlert().getAllTimeLow() == null) {
-            game.getAlert().setAllTimeLow(config.getAlert().getAllTimeLow());
-        }
-        if (game.getAlert().getSignificantDiscount() == null) {
-            game.getAlert().setSignificantDiscount(config.getAlert().getSignificantDiscount());
+        AlertConfig alertConfig = config.getAlert();
+        if (alertConfig != null) {
+            if (game.getAlert().getDisabled() == null) {
+                game.getAlert().setDisabled(alertConfig.getDisabled());
+            }
+            if (game.getAlert().getSale() == null) {
+                game.getAlert().setSale(alertConfig.getSale());
+            }
+            if (game.getAlert().getDiscountPrice() == null) {
+                game.getAlert().setDiscountPrice(alertConfig.getDiscountPrice());
+            }
+            if (game.getAlert().getDiscountPercentage() == null) {
+                game.getAlert().setDiscountPercentage(alertConfig.getDiscountPercentage());
+            }
+            if (game.getAlert().getAllTimeLow() == null) {
+                game.getAlert().setAllTimeLow(alertConfig.getAllTimeLow());
+            }
+            if (game.getAlert().getSignificantDiscount() == null) {
+                game.getAlert().setSignificantDiscount(alertConfig.getSignificantDiscount());
+            }
         }
     }
 }
