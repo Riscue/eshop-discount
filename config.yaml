@@ -1,6 +1,8 @@
 cache: false
 wishlist:
   - https://www.dekudeals.com/wishlist/yc4tqb7mt7
+collection:
+  - https://www.dekudeals.com/collection/yc4tqb7mt7
 alert:
   sale: true
   discountPrice: 3
@@ -70,10 +72,6 @@ game:
     alert:
       discountPrice: 10
       discountPercentage: 50
-  - name: Immortals Fenyx Rising
-    alert:
-      discountPrice: 15
-      discountPercentage: 70
   - name: Children of Morta
     alert:
       discountPrice: 7

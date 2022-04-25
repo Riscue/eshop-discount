@@ -29,10 +29,16 @@ public class EshopDiscountTracker {
         EshopPricesParser eshopPricesParser = new EshopPricesParser();
 
         logger.info("Fetching wishlists");
-        List<Game> gameList = dekuDealsParser.fetchWishlists(config.getWishlist());
+        List<Game> gameList = dekuDealsParser.fetchLists(config.getWishlist());
 
         logger.info("Merge DekuDeals Wishlist and Custom Wishlist");
         ConfigUtil.merge(gameList, config);
+
+        logger.info("Fetching collections");
+        List<Game> collection = dekuDealsParser.fetchLists(config.getCollection());
+
+        logger.info("Removing already owned games from wishlist");
+        gameList.removeAll(collection);
 
         logger.info("Load alerts from Config");
         gameList.forEach(game -> ConfigUtil.loadAlertsFromConfig(game, config));

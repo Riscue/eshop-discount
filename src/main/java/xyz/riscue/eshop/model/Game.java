@@ -1,19 +1,20 @@
 package xyz.riscue.eshop.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import xyz.riscue.eshop.model.config.AlertConfig;
 
 import java.util.List;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Game {
+
+    @EqualsAndHashCode.Include
     private String name;
+
     private Integer metacriticScore;
     private List<RegionPrice> prices;
     private Double allTimeLowPrice;

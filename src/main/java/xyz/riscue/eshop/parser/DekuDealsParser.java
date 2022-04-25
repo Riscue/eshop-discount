@@ -69,16 +69,16 @@ public class DekuDealsParser {
         }
     }
 
-    public List<Game> fetchWishlists(List<String> wishlists) {
-        return wishlists.stream().flatMap(wishlist -> parseWishlist(wishlist).stream()).collect(Collectors.toList());
+    public List<Game> fetchLists(List<String> listUrls) {
+        return listUrls.stream().flatMap(listUrl -> parseList(listUrl).stream()).collect(Collectors.toList());
     }
 
-    public List<Game> parseWishlist(String wishlistUrl) {
+    public List<Game> parseList(String listUrl) {
         ArrayList<Game> games = new ArrayList<>();
 
-        logger.info(String.format("Fetching wishlist: %s", wishlistUrl));
+        logger.info(String.format("Fetching list: %s", listUrl));
 
-        Document document = HttpRequestUtil.get(wishlistUrl, SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
+        Document document = HttpRequestUtil.get(listUrl, SiteHeaderUtil.getUserAgent(), SiteHeaderUtil.getCookies(DOMAIN), SiteHeaderUtil.getHeaders(DOMAIN));
         if (document == null) {
             return games;
         }
@@ -93,7 +93,7 @@ public class DekuDealsParser {
             );
         }
 
-        logger.info(String.format("%s games found in wishlist", games.size()));
+        logger.info(String.format("%s games found in list", games.size()));
         return games;
     }
 }

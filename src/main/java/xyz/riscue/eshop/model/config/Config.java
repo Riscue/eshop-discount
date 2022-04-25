@@ -11,6 +11,7 @@ public class Config {
     private AlertConfig alert;
     private MailConfig mail;
     private List<String> wishlist;
+    private List<String> collection;
     private List<WishlistItem> game;
     private Map<String, Map<String, String>> cookies;
     private Map<String, Map<String, String>> headers;
