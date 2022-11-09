@@ -43,7 +43,12 @@ public class CacheUtil {
 
         Yaml yaml = new Yaml(representer, options);
         try {
-            yaml.dump(new CacheContainer(gameList), new FileWriter("cache.yaml"));
+            String cacheFile = System.getenv("CACHE_FILE");
+            if (cacheFile == null || cacheFile.isEmpty()) {
+                cacheFile = "/data/cache.yaml";
+            }
+
+            yaml.dump(new CacheContainer(gameList), new FileWriter(cacheFile));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

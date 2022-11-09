@@ -9,10 +9,10 @@ RUN mvn clean package
 
 FROM openjdk:11-jre
 
-VOLUME /config
+VOLUME /data
 
 COPY --from=builder /eshop-discount/target/eshop-discount.jar /eshop-discount.jar
 
-COPY config.yaml .
+COPY config.yaml /data
 
 ENTRYPOINT ["java", "-jar", "/eshop-discount.jar"]

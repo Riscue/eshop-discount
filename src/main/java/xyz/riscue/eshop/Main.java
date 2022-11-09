@@ -31,7 +31,7 @@ public class Main {
         String configFile = System.getenv("CONFIG_FILE");
         if (configFile == null || configFile.isEmpty()) {
             logger.warn("'CONFIG_FILE' env is not set");
-            configFile = "config.yaml";
+            configFile = "/data/config.yaml";
         }
 
         File file = new File(configFile);
@@ -58,7 +58,7 @@ public class Main {
         String cacheFile = System.getenv("CACHE_FILE");
         if (cacheFile == null || cacheFile.isEmpty()) {
             logger.warn("'CACHE_FILE' env is not set");
-            cacheFile = "cache.yaml";
+            cacheFile = "/data/cache.yaml";
         }
 
         File file = new File(cacheFile);
