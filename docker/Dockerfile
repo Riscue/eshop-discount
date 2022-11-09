@@ -11,6 +11,6 @@ FROM openjdk:11-jre
 
 COPY --from=builder /eshop-discount/target/eshop-discount.jar /eshop-discount.jar
 
-COPY config.yaml /data
+COPY config.yaml /data/
 
 ENTRYPOINT ["java", "-jar", "/eshop-discount.jar"]
