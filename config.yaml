@@ -80,6 +80,14 @@ game:
     alert:
       discountPrice: 1
       discountPercentage: 90
+  - name: 'Diablo II: Resurrected'
+    alert:
+      discountPrice: 15
+      discountPercentage: 70
+  - name: Torchlight II
+    alert:
+      discountPrice: 5
+      discountPercentage: 70
 mail:
   host: riscue.xyz
   port: 465
